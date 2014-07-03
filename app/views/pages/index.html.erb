@@ -1,0 +1,45 @@
+<h1>Listing pages</h1>
+<style type="text/css">
+  table {
+    border: solid 1px #d7d7d7;
+  }
+
+  td {
+    border-top: solid 1px #d7d7d7;
+    border-left: solid 1px #d7d7d7;
+  }
+
+  td:first-child {
+    border-left:0;
+  }
+
+</style>
+<table cellpadding="5" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Number</th>
+      <th>Url</th>
+      <th>Magazine</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pages.each do |page| %>
+      <tr>
+        <td><%= page.name %></td>
+        <td><%= page.number %></td>
+        <td><%= page.url[0..50] %>..</td>
+        <td><%= page.magazine_id %></td>
+        <td><%= link_to 'Show', page %> | 
+        <%= link_to 'Edit', edit_page_path(page) %> | 
+        <%= link_to 'Destroy', page, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Page', new_page_path %>

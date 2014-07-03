@@ -1,0 +1,79 @@
+<!-- <p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @page.name %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @page.number %>
+</p>
+
+<p>
+  <strong>File:</strong>
+  <%= @page.file %>
+</p>
+<p>
+  <strong>PDF</strong>
+  <a href="<%= @page.url_path %>">Baixar</a>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @page.url %>
+</p>
+
+<p>
+  <strong>Magazine:</strong>
+  <%= @page.magazine_id %>
+</p>
+
+
+ -->
+
+<script src="/assets/pdf/shared/util.js"></script>
+<script src="/assets/pdf/display/api.js"></script>
+<script src="/assets/pdf/display/metadata.js"></script>
+<script src="/assets/pdf/display/canvas.js"></script>
+<script src="/assets/pdf/display/webgl.js"></script>
+<script src="/assets/pdf/display/pattern_helper.js"></script>
+<script src="/assets/pdf/display/font_loader.js"></script>
+<script src="/assets/pdf/display/annotation_helper.js"></script>
+<script type="text/javascript">
+  PDFJS.workerSrc = '/assets/pdf/worker_loader.js';
+</script>
+<script>
+  
+  PDFJS.getDocument('<%= @page.url_path%>').then(function(pdf) {
+    // Using promise to fetch the page
+    pdf.getPage(1).then(function(page) {
+      var scale = 1.5;
+      var viewport = page.getViewport(scale);
+
+      //
+      // Prepare canvas using PDF page dimensions
+      //
+      var canvas = document.getElementById('the-canvas');
+      var context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      //
+      // Render PDF page into canvas context
+      //
+      var renderContext = {
+        canvasContext: context,
+        viewport: viewport
+      };
+      page.render(renderContext);
+    });
+  });
+</script>
+
+<h1> <%= @page.name %></h1>
+<p>
+  <%= link_to 'Edit', edit_page_path(@page) %> |
+  <%= link_to 'Back', pages_path %>
+</p>
+<canvas id="the-canvas" style="border:1px solid black;"/>
