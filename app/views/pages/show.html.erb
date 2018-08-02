@@ -47,7 +47,10 @@
   
   PDFJS.getDocument('<%= @page.url_path%>').then(function(pdf) {
     // Using promise to fetch the page
-    pdf.getPage(1).then(function(page) {
+    
+    console.log(pdf.numPages)
+
+    pdf.getPage(<%= params[:page] %>).then(function(page) {
       var scale = 1.5;
       var viewport = page.getViewport(scale);
 
@@ -76,4 +79,7 @@
   <%= link_to 'Edit', edit_page_path(@page) %> |
   <%= link_to 'Back', pages_path %>
 </p>
-<canvas id="the-canvas" style="border:1px solid black;"/>
+<div id="pages">
+  <canvas id="the-canvas"/>
+
+</canvas>
